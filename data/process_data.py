@@ -1,16 +1,68 @@
+#Import libraries which are used
 import sys
-
+import pandas as pd
+from sqlalchemy import create_engine
 
 def load_data(messages_filepath, categories_filepath):
-    pass
+    """
+    This function takes the filepath of two csv as an input, loads the two 
+    csv into a data frame each and returns a combined dataframe
+    """
+    #Read in csv
+    messages = pd.read_csv(messages_filepath)
+    categories = pd.read_csv(categories_filepath)
+    
+    #Merge Dataframe on id column, merging to the messages df so each msg has a category
+    df = messages.merge(categories,how='left',on='id')
+    return df
 
 
 def clean_data(df):
-    pass
+    """
+    This function takes a dataframe as an input and splits the categories column
+    into several seperate columns.    
+    All duplicates are removed
+    """
+    #Split category column into separate columns on ;
+    categories = df.categories.str.split(';',expand=True)
+    
+    #Use the first column as title column, removing the 0 or 1 with a regex
+    categories.columns = list(categories.iloc[0].str.replace('[-0-9]','',regex=True))
+    
+    #Iterating through all columns, keeping only 0 or 1
+    for column in categories:
+        # set each value to be the last character of the string
+        categories[column] = categories[column].str[-1:]
+        # convert column from string to numeric
+        categories[column] = categories[column].astype(int)
+    
+    #Droping the old categories column
+    df.drop('categories',axis=1,inplace=True)
+
+    # concatenate the original dataframe with the new `categories` dataframe
+    df = pd.concat([df,categories],axis=1)
+
+    #Removing duplicates, keeping only the first of the duplicates
+    df=df[~df.duplicated(keep='first')]
+
+
+
+    return df
+
+
+    
 
 
 def save_data(df, database_filename):
-    pass  
+    """
+    Saving the df to a specified database (SQL)
+    Inputs:
+    df...Datafrane
+    database_filename...Filename for the generated sql database
+    """
+    databasepath='sqlite:///'+database_filename
+    engine = create_engine(databasepath)
+    df.to_sql('messages', engine, index=False)
 
 
 def main():
@@ -27,7 +79,7 @@ def main():
         
         print('Saving data...\n    DATABASE: {}'.format(database_filepath))
         save_data(df, database_filepath)
-        
+        print(database_filepath)
         print('Cleaned data saved to database!')
     
     else:
