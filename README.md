@@ -3,8 +3,8 @@
 ### Table of Contents
 1. [Summary](#summary)
 2. [Installation](#installation)
-3. [Instructions]](#instruction)
-4. [Files]](#files)
+3. [Instructions](#instruction)
+4. [Files](#files)
 5. [Licensing, Authors, and Acknowledgements](#licensing)
 
 
