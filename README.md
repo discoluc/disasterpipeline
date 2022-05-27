@@ -31,20 +31,20 @@ There should be no necessary  other libraries to run the code here beyond these.
 3. Go to http://0.0.0.0:3001/
 
 ## Files <a name=files></a>
-app
- ┣ templates
- ┃ ┣ go.html #classes of the website
- ┃ ┗ master.html #main page of the website
- ┗ run.py #File runs the webapp
- data
- ┣ DisasterResponse.db #database containing the cleaned csv
- ┣ disaster_categories.csv #data to process
- ┣ disaster_messages.csv #data to process
- ┗ process_data.py # ETL Pipeline
- models
- ┣ classifier.pkl #Pickle File with saved model
- ┗ train_classifier.py #ML Pipeline
-README.md
+app  
+ ┣ templates  
+ ┃ ┣ go.html #classes of the website  
+ ┃ ┗ master.html #main page of the website  
+ ┗ run.py #File runs the webapp  
+ data  
+ ┣ DisasterResponse.db #database containing the cleaned csv  
+ ┣ disaster_categories.csv #data to process  
+ ┣ disaster_messages.csv #data to process  
+ ┗ process_data.py # ETL Pipeline  
+ models  
+ ┣ classifier.pkl #Pickle File with saved model  
+ ┗ train_classifier.py #ML Pipeline  
+README.md  
 
 The two csv's disaster_messages and disaster_catepories represent both input files with the original tweet and to which category they belong to. This datasets are combined and clenead and put into the Database DisasterResponse. This process is in the process_data.py.
 Finally the database is used to train the model with the train_classifier py. The resulting model is saved to the classifier.pkl file.
