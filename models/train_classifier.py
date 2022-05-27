@@ -70,7 +70,7 @@ def build_model(
         ]
     )
     if grid_search:
-        model = GridSearchCV(pipeline, param_grid=grid_search_parameters)
+        model = GridSearchCV(pipeline, param_grid=grid_search_parameters,n_jobs=-1,verbose=3)
     else:
         model = pipeline
 
